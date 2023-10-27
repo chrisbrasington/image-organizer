@@ -2,8 +2,7 @@
 import os
 import shutil
 import sys
-import PIL.Image
-
+# import PIL.Image
 if len(sys.argv) != 3:
     print("Usage: python program.py <input_directory> <output_directory>")
     sys.exit(1)
@@ -54,7 +53,7 @@ def pixel_to_ascii(image):
     return ascii_str
 
 # Loop through images in the input directory
-for filename in sorted(os.listdir(input_directory)):
+for filename in os.listdir(input_directory):
     if filename.startswith('.trashed'):
         continue
 
@@ -85,6 +84,10 @@ for filename in sorted(os.listdir(input_directory)):
             for i, path in enumerate(unique_paths):
                 print(f"{i+1} - {path}")
             user_input = input("Enter path: ")
+
+            if user_input == 'q':
+                sys.exit(0)
+
             if user_input.isdigit() and int(user_input) <= len(unique_paths):
                 selected_path = unique_paths[int(user_input)-1]
             else:
