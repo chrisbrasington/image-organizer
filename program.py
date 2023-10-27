@@ -65,7 +65,7 @@ for filename in os.listdir(input_directory):
         
         # BEGIN: feh_open
         # open image with feh
-        subprocess.run(['feh', image_path])
+        subprocess.Popen(["xdg-open", image_path])
         # END: feh_open
 
         # #resize image
