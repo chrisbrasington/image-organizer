@@ -4,6 +4,7 @@ import shutil
 import sys
 # import PIL.Image
 import subprocess
+import time
 
 if len(sys.argv) != 3:
     print("Usage: python program.py <input_directory> <output_directory>")
@@ -63,10 +64,8 @@ for filename in os.listdir(input_directory):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)   
         
-        # BEGIN: feh_open
-        # open image with feh
-        subprocess.Popen(["xdg-open", image_path])
-        # END: feh_open
+        # subprocess_obj = p = subprocess.Popen(f'xdg-open {image_path}', stdout=subprocess.PIPE, shell=True)
+        subprocess_viewer = subprocess.Popen(['xdg-open', image_path])
 
         # #resize image
         # image = PIL.Image.open(image_path)
@@ -93,6 +92,10 @@ for filename in os.listdir(input_directory):
             user_input = input("Enter path: ")
 
             if user_input == 'q':
+                if subprocess_viewer is not None:
+                    subprocess_viewer.terminate()
+
+                subprocess.call(["killall", 'eog'])
                 sys.exit(0)
 
             if user_input.isdigit() and int(user_input) <= len(unique_paths):
@@ -110,6 +113,10 @@ for filename in os.listdir(input_directory):
                 break
             else:
                 print("Invalid path. Please try again.")
+
+        if subprocess_viewer is not None:
+            subprocess_viewer.terminate()
+        subprocess.call(["killall", 'eog'])
 
         # Move the image to the selected path
         shutil.move(image_path, os.path.join(selected_path, filename))
