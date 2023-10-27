@@ -1,3 +1,7 @@
-tensorflow
-tensorflow-hub
+# tensorflow
+# tensorflow-hub
 pywhatkit
+Pillow
+numpy
+matplotlib
+img2txt

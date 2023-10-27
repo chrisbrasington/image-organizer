@@ -2,7 +2,7 @@
 import os
 import shutil
 import sys
-from PIL import Image
+import PIL.Image
 
 if len(sys.argv) != 3:
     print("Usage: python program.py <input_directory> <output_directory>")
@@ -22,14 +22,37 @@ os.makedirs(output_directory, exist_ok=True)
 # Initialize an array to store unique paths
 unique_paths = []
 
+ASCII_CHARS = ["@", "#", "$", "%", "?", "*", "+", ";", ":", ",", "."]
+
+def resize(image, new_width = 100):
+    old_width, old_height = image.size
+    new_height = new_width * old_height / old_width
+    return image.resize((new_width, new_height))
+
+def to_greyscale(image):
+    return image.convert("L")
+
 # Loop through images in the input directory
 for filename in os.listdir(input_directory):
     if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
         # open and resize the image
-        image_path = os.path.join(input_directory, filename)
+        image_path = os.path.join(input_directory, filename)      
 
-        with Image.open(image_path) as image:
-            image.show()
+        #resize image
+        image = PIL.Image.open(image_path)
+        image = resize(image);
+        #convert image to greyscale image
+        greyscale_image = to_greyscale(image)
+        # convert greyscale image to ascii characters
+        ascii_str = pixel_to_ascii(greyscale_image)
+        img_width = greyscale_image.width
+        ascii_str_len = len(ascii_str)
+        ascii_img=""
+        #Split the string based on width  of the image
+        for i in range(0, ascii_str_len, img_width):
+            ascii_img += ascii_str[i:i+img_width] + "\n"
+
+        print(ascii_img)
 
         # Ask the user for a file path to move the image to
         while True:
