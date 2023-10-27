@@ -4,6 +4,8 @@
 
 This Python program is designed to help you organize a directory of images by moving them into subdirectories of your choice. The program reads image files from an input directory and allows you to select or enter a destination path for each image. It will then move the images accordingly.
 
+![alt text](.img/sample1.png)
+
 ## Requirements
 
 - Python 3.x
