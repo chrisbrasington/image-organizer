@@ -21,7 +21,10 @@ os.makedirs(output_directory, exist_ok=True)
 
 # Initialize an array to store unique paths
 unique_paths = []
-with open('user_modified_paths.txt', 'r') as file:
+file_path = 'user_modified_paths.txt'
+if not os.path.exists(file_path):
+    open(file_path, 'w').close()
+with open(file_path, 'r') as file:
     unique_paths = [line.strip() for line in file.readlines()]
 
 print(unique_paths)
@@ -52,6 +55,9 @@ def pixel_to_ascii(image):
 
 # Loop through images in the input directory
 for filename in sorted(os.listdir(input_directory)):
+    if filename.startswith('.trashed'):
+        continue
+
     if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)      
