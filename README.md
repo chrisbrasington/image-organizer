@@ -6,6 +6,21 @@ This Python program is designed to help you organize a directory of images by mo
 
 ![alt text](.img/sample1.png)
 
+## Sample run:
+```bash
+Image: 0wn4g5yfalf81.jpg
+Select a path or enter a new path:
+1 - /home/chris/Pictures/video games/doki
+2 - /home/chris/Pictures/video games/sonic
+3 - /home/chris/Pictures/video games/splatoon
+4 - /home/chris/Pictures/video games/xenoblade
+Enter path: 1
+```
+
+```
+Enter path: newfolder/subfolder
+```
+
 ## Requirements
 
 - Python 3.x
