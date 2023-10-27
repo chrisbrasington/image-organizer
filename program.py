@@ -98,8 +98,10 @@ for filename in os.listdir(input_directory):
 
             if user_input == 'new':
                 user_input = input("Enter new path: ")
+                user_input = os.path.join(output_directory, user_input)
                 unique_paths.append(user_input)
                 selected_path = user_input
+                unique_paths = sorted(unique_paths)
                 continue
 
             if user_input == 'd':
@@ -113,7 +115,7 @@ for filename in os.listdir(input_directory):
                 
                 break
 
-            if user_input == 'q':
+            if user_input == 'q' or user_input == 'exit':
                 if subprocess_viewer is not None:
                     subprocess_viewer.terminate()
 
@@ -122,19 +124,30 @@ for filename in os.listdir(input_directory):
 
             if user_input.isdigit() and int(user_input) <= len(unique_paths):
                 selected_path = unique_paths[int(user_input)-1]
+                print(selected_path)
             else:
                 # selected_path = os.path.join(output_directory, user_input)
                 # unique_paths.append(selected_path)
+
+                potentially_new_path = os.path.join(output_directory, user_input)
+
                 selected_path = None
+                match = 0
                 for path in unique_paths:
                     if user_input in path:
                         selected_path = path
                         print(selected_path)
                         print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-                        break
-                if selected_path is None:
-                    print("No path found. Please try again.")
+                        match += 1
+                if match > 1:
+                    print('Multiple matches found. Please try again.')
                     continue
+                if selected_path is None:
+                    print("Path is new")
+                    yesno = input(f'Use {potentially_new_path} (y/n)?')
+                    if yesno == 'y':
+                        selected_path = potentially_new_path
+                        unique_paths.append(selected_path)
 
             unique_paths = sorted(unique_paths)
 
