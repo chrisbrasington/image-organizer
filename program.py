@@ -88,11 +88,19 @@ for filename in os.listdir(input_directory):
 
         # Ask the user for a file path to move the image to
         while True:
+            selected_path = None
+
             print(f"Image: {filename}")
             print("Select a path or enter a new path:")
             for i, path in enumerate(unique_paths):
                 print(f"{i+1} - {path}")
-            user_input = input("Enter path: ")
+            user_input = input("Select (or type new): ")
+
+            if user_input == 'new':
+                user_input = input("Enter new path: ")
+                unique_paths.append(user_input)
+                selected_path = user_input
+                continue
 
             if user_input == 'd':
                 print('deleting')
@@ -115,8 +123,18 @@ for filename in os.listdir(input_directory):
             if user_input.isdigit() and int(user_input) <= len(unique_paths):
                 selected_path = unique_paths[int(user_input)-1]
             else:
-                selected_path = os.path.join(output_directory, user_input)
-                unique_paths.append(selected_path)
+                # selected_path = os.path.join(output_directory, user_input)
+                # unique_paths.append(selected_path)
+                selected_path = None
+                for path in unique_paths:
+                    if user_input in path:
+                        selected_path = path
+                        print(selected_path)
+                        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+                        break
+                if selected_path is None:
+                    print("No path found. Please try again.")
+                    continue
 
             unique_paths = sorted(unique_paths)
 

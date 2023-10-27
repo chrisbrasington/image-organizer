@@ -14,11 +14,11 @@ Select a path or enter a new path:
 2 - /home/chris/Pictures/video games/sonic
 3 - /home/chris/Pictures/video games/splatoon
 4 - /home/chris/Pictures/video games/xenoblade
-Enter path: 1
+Select (or type new): 1
 ```
 
 ```
-Enter path: newfolder/subfolder
+Select (or type new): sonic
 ```
 
 ![alt text](.img/sample2.png)
