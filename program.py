@@ -29,8 +29,6 @@ if not os.path.exists(file_path):
 with open(file_path, 'r') as file:
     unique_paths = [line.strip() for line in file.readlines()]
 
-print(unique_paths)
-
 ASCII_CHARS = ["@", "#", "$", "%", "?", "*", "+", ";", ":", ",", "."]
 
 import math
@@ -64,8 +62,11 @@ for filename in os.listdir(input_directory):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)   
         
-        # subprocess_obj = p = subprocess.Popen(f'xdg-open {image_path}', stdout=subprocess.PIPE, shell=True)
-        subprocess_viewer = subprocess.Popen(['xdg-open', image_path])
+        print(image_path)
+        subprocess_viewer = subprocess.Popen(f'xdg-open "{image_path}"', shell=True)
+
+        time.sleep(0.5)
+        subprocess.call(["wmctrl", "-a", "code"])
 
         # #resize image
         # image = PIL.Image.open(image_path)
@@ -83,6 +84,8 @@ for filename in os.listdir(input_directory):
 
         # print(ascii_img)
 
+        skip = False
+
         # Ask the user for a file path to move the image to
         while True:
             print(f"Image: {filename}")
@@ -90,6 +93,17 @@ for filename in os.listdir(input_directory):
             for i, path in enumerate(unique_paths):
                 print(f"{i+1} - {path}")
             user_input = input("Enter path: ")
+
+            if user_input == 'd':
+                print('deleting')
+                
+                selected_path = os.path.join(output_directory, 'trash')
+                if not os.path.exists(selected_path):
+                    os.makedirs(selected_path)
+                shutil.move(image_path, os.path.join(selected_path, filename))
+                skip = True
+                
+                break
 
             if user_input == 'q':
                 if subprocess_viewer is not None:
@@ -119,12 +133,13 @@ for filename in os.listdir(input_directory):
         subprocess.call(["killall", 'eog'])
 
         # Move the image to the selected path
-        shutil.move(image_path, os.path.join(selected_path, filename))
+        if not skip:
+            shutil.move(image_path, os.path.join(selected_path, filename))
 
     # Display all the prior paths
-    print("Prior paths:")
-    for i, path in enumerate(unique_paths):
-        print(f"{i+1} - {path}")
+    # print("Prior paths:")
+    # for i, path in enumerate(unique_paths):
+    #     print(f"{i+1} - {path}")
 
     # Update user-modified paths
     with open('user_modified_paths.txt', 'w') as file:

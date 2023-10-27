@@ -21,6 +21,8 @@ Enter path: 1
 Enter path: newfolder/subfolder
 ```
 
+![alt text](.img/sample2.png)
+
 ## Requirements
 
 - Python 3.x
