@@ -58,7 +58,7 @@ for filename in os.listdir(input_directory):
     if filename.startswith('.trashed'):
         continue
 
-    if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
+    if filename.lower().endswith(('.jpg', '.jpeg', '.png', '.gif', 'webp', 'jfif')):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)   
         
@@ -164,6 +164,7 @@ for filename in os.listdir(input_directory):
         if subprocess_viewer is not None:
             subprocess_viewer.terminate()
         subprocess.call(["killall", 'eog'])
+        subprocess.call(["killall", 'feh'])
 
         # Move the image to the selected path
         if not skip:
