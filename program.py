@@ -65,7 +65,7 @@ for filename in os.listdir(input_directory):
         print(image_path)
         subprocess_viewer = subprocess.Popen(f'xdg-open "{image_path}"', shell=True)
 
-        time.sleep(0.5)
+        time.sleep(0.8)
         subprocess.call(["wmctrl", "-a", "code"])
 
         # #resize image
@@ -91,9 +91,9 @@ for filename in os.listdir(input_directory):
             selected_path = None
 
             print(f"Image: {filename}")
-            print("Select a path or enter a new path:")
-            for i, path in enumerate(unique_paths):
-                print(f"{i+1} - {path}")
+            # for i, path in enumerate(unique_paths):
+            #     print(f"{i+1} - {path}")
+
             user_input = input("Select (or type new): ")
 
             if user_input == 'new':
@@ -148,6 +148,8 @@ for filename in os.listdir(input_directory):
                     if yesno == 'y':
                         selected_path = potentially_new_path
                         unique_paths.append(selected_path)
+                    else:
+                        continue
 
             unique_paths = sorted(unique_paths)
 
