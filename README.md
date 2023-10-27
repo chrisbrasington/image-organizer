@@ -7,6 +7,26 @@ This Python program is designed to help you organize a directory of images by mo
 ![alt text](.img/sample1.png)
 
 ## Sample run:
+
+Type an existing known path and auto-match:
+```bash
+/home/chris/Pictures/unsorted/Screenshot 2021-12-06 083356.png
+Image: Screenshot 2021-12-06 083356.png
+Select (or type new): ffxiv
+/home/chris/Pictures/video games/ffxiv
+```
+
+New path detection and add:
+```bash
+/home/chris/Pictures/unsorted/1615334503884.png
+Image: 1615334503884.png
+Select (or type new): video games/sonic
+Path is new
+Use /home/chris/Pictures/video games/sonic (y/n)?y
+/home/chris/Pictures/unsorted/Screenshot 2022-03-10 095647.png
+```
+
+If printing all paths and using numbers:
 ```bash
 Image: 0wn4g5yfalf81.jpg
 Select a path or enter a new path:
@@ -15,10 +35,6 @@ Select a path or enter a new path:
 3 - /home/chris/Pictures/video games/splatoon
 4 - /home/chris/Pictures/video games/xenoblade
 Select (or type new): 1
-```
-
-```
-Select (or type new): sonic
 ```
 
 ![alt text](.img/sample2.png)
