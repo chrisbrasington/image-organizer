@@ -3,6 +3,8 @@ import os
 import shutil
 import sys
 # import PIL.Image
+import subprocess
+
 if len(sys.argv) != 3:
     print("Usage: python program.py <input_directory> <output_directory>")
     sys.exit(1)
@@ -59,7 +61,12 @@ for filename in os.listdir(input_directory):
 
     if filename.endswith(('.jpg', '.jpeg', '.png', '.gif')):
         # open and resize the image
-        image_path = os.path.join(input_directory, filename)      
+        image_path = os.path.join(input_directory, filename)   
+        
+        # BEGIN: feh_open
+        # open image with feh
+        subprocess.run(['feh', image_path])
+        # END: feh_open
 
         # #resize image
         # image = PIL.Image.open(image_path)
