@@ -42,14 +42,12 @@ for filename in os.listdir(input_directory):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)   
         
-        print(image_path)
         subprocess_viewer = subprocess.Popen(f'xdg-open "{image_path}"', shell=True)
 
         time.sleep(0.8)
         subprocess.call(["wmctrl", "-a", "code"])
 
         count += 1
-        print(f'{count}/{number_of_files}')
 
         skip = False
 
@@ -57,7 +55,8 @@ for filename in os.listdir(input_directory):
         while True:
             selected_path = None
 
-            print(f"Image: {filename}")
+            print('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+            print(f"{count}/{number_of_files} - {image_path}")
             # for i, path in enumerate(unique_paths):
             #     print(f"{i+1} - {path}")
 
@@ -91,7 +90,7 @@ for filename in os.listdir(input_directory):
 
             if user_input.isdigit() and int(user_input) <= len(unique_paths):
                 selected_path = unique_paths[int(user_input)-1]
-                print(selected_path)
+                
             else:
                 # selected_path = os.path.join(output_directory, user_input)
                 # unique_paths.append(selected_path)
@@ -103,6 +102,11 @@ for filename in os.listdir(input_directory):
 
                 if(user_input.startswith('/')):
                     paths = [path for path in unique_paths if path.endswith(user_input)]
+
+                    if len(paths) >1:
+                        for path in paths:
+                            print(path)
+
                     if len(paths) == 1:
                         match = 1
                         selected_path = paths[0]
@@ -110,13 +114,25 @@ for filename in os.listdir(input_directory):
                     for path in unique_paths:
                         if user_input in path:
                             selected_path = path
+                            print(path)
                             match += 1
+
                 if match > 1:
-                    print('Multiple matches found. Please try again.')
-                    continue
-                elif match == 1:
-                    print(selected_path)
-                    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
+                    if not user_input.startswith('/'):
+                        user_input = '/' + user_input
+
+                    ends_with_path = [path for path in unique_paths if path.endswith(user_input)]
+
+                    if len(ends_with_path) == 1:
+                        ends_with_path = ends_with_path[0]
+                        print(f'Multiple paths exists, but using endswith: {ends_with_path}')
+                        selected_path = ends_with_path
+                    else:
+                        print('Multiple matches found. Please try again.')
+                        continue
+                # elif match == 1:
+                    
                 if selected_path is None:
                     print("Path is new")
                     yesno = input(f'Use {potentially_new_path} (y/n)?')
