@@ -58,7 +58,7 @@ To use this program, follow these steps:
 
 ## multiple usage detection
 
-if multiple paths are find, the program will auto-accept any path that endwith the user endpoint
+if multiple paths are find, the program will auto-accept any path that endwith the user endpoint - when only one matches.
 
 ```bash
  /home/chris/Pictures/unsorted/tpvqi0up1e461.png
