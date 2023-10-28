@@ -56,6 +56,18 @@ To use this program, follow these steps:
    python program.py <input_directory> <output_directory>
    ```
 
+## multiple usage detection
+
+if multiple paths are find, the program will auto-accept any path that endwith the user endpoint
+
+```bash
+ /home/chris/Pictures/unsorted/tpvqi0up1e461.png
+Select (or type new): fantasy
+/home/chris/Pictures/fantasy
+/home/chris/Pictures/video games/final fantasy
+Multiple paths exists, but using endswith: /home/chris/Pictures/fantasy
+```
+
 Replace <input_directory> with the path to the directory containing your images.
 Replace <output_directory> with the path to the directory where you want the organized images to be placed.
 
