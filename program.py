@@ -30,6 +30,8 @@ if not os.path.exists(file_path):
 with open(file_path, 'r') as file:
     unique_paths = [line.strip() for line in file.readlines()]
 
+number_of_files = len(os.listdir(input_directory))
+count = 0
 
 # Loop through images in the input directory
 for filename in os.listdir(input_directory):
@@ -45,6 +47,9 @@ for filename in os.listdir(input_directory):
 
         time.sleep(0.8)
         subprocess.call(["wmctrl", "-a", "code"])
+
+        count += 1
+        print(f'{count}/{number_of_files}')
 
         skip = False
 
@@ -95,15 +100,23 @@ for filename in os.listdir(input_directory):
 
                 selected_path = None
                 match = 0
-                for path in unique_paths:
-                    if user_input in path:
-                        selected_path = path
-                        print(selected_path)
-                        print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-                        match += 1
+
+                if(user_input.startswith('/')):
+                    paths = [path for path in unique_paths if path.endswith(user_input)]
+                    if len(paths) == 1:
+                        match = 1
+                        selected_path = paths[0]
+                else:
+                    for path in unique_paths:
+                        if user_input in path:
+                            selected_path = path
+                            match += 1
                 if match > 1:
                     print('Multiple matches found. Please try again.')
                     continue
+                elif match == 1:
+                    print(selected_path)
+                    print('~~~~~~~~~~~~~~~~~~~~~~~~~~~')
                 if selected_path is None:
                     print("Path is new")
                     yesno = input(f'Use {potentially_new_path} (y/n)?')
@@ -125,8 +138,8 @@ for filename in os.listdir(input_directory):
 
         if subprocess_viewer is not None:
             subprocess_viewer.terminate()
-        subprocess.call(["killall", 'eog'])
-        subprocess.call(["killall", 'feh'])
+        subprocess.call(["killall", 'eog'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.call(["killall", 'feh'], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         # Move the image to the selected path
         if not skip:
