@@ -24,13 +24,12 @@ os.makedirs(output_directory, exist_ok=True)
 
 # Initialize an array to store unique paths
 unique_paths = []
-file_path = 'user_modified_paths.txt'
+user_modified_paths_file = 'user_modified_paths.txt'
 script_dir = os.path.dirname(os.path.abspath(__file__))
-file_path = os.path.join(script_dir, file_path)
-onx
-if not os.path.exists(file_path):
-    open(file_path, 'w').close()
-with open(file_path, 'r') as file:
+user_modified_paths_file = os.path.join(script_dir, user_modified_paths_file)
+if not os.path.exists(user_modified_paths_file):
+    open(user_modified_paths_file, 'w').close()
+with open(user_modified_paths_file, 'r') as file:
     unique_paths = [line.strip() for line in file.readlines()]
 
 number_of_files = len(os.listdir(input_directory))
@@ -170,6 +169,6 @@ for filename in os.listdir(input_directory):
     #     print(f"{i+1} - {path}")
 
     # Update user-modified paths
-    with open('user_modified_paths.txt', 'w') as file:
+    with open(user_modified_paths_file, 'w') as file:
         for i, path in enumerate(unique_paths):
             file.write(f"{path}\n")
