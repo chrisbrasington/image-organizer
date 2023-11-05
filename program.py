@@ -25,6 +25,9 @@ os.makedirs(output_directory, exist_ok=True)
 # Initialize an array to store unique paths
 unique_paths = []
 file_path = 'user_modified_paths.txt'
+script_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(script_dir, file_path)
+onx
 if not os.path.exists(file_path):
     open(file_path, 'w').close()
 with open(file_path, 'r') as file:
