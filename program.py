@@ -44,7 +44,15 @@ for filename in os.listdir(input_directory):
         # open and resize the image
         image_path = os.path.join(input_directory, filename)   
         
-        subprocess_viewer = subprocess.Popen(f'xdg-open "{image_path}"', shell=True)
+        # subprocess_viewer = subprocess.Popen(f'xdg-open "{image_path}"', shell=True)
+
+        subprocess_viewer = subprocess.Popen(
+            f'feh -g 1000x1000 --scale-down -q "{image_path}"',
+            shell=True,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
 
         time.sleep(0.8)
         subprocess.call(["wmctrl", "-a", "code"])
