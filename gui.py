@@ -73,12 +73,21 @@ class ImageSorterGUI:
             self.entry.config(state="disabled")
             self.submit_button.config(state="disabled")
             self.delete_button.config(state="disabled")
+
+            # ✅ Show dialog and exit on OK
+            messagebox.showinfo("Done", "✅ All images have been processed.")
+            self.master.destroy()
             return
 
         self.skip = False
         self.current_filename = image_files[index]
         image_path = os.path.join(input_directory, self.current_filename)
-        self.info_label.config(text=f"{index+1}/{total_files} - {self.current_filename}")
+
+        # ✅ Print to console
+        print(f"Loading image: {image_path}")
+
+        # ✅ Show full path in GUI
+        self.info_label.config(text=f"{index+1}/{total_files} - {self.current_filename}\n{image_path}")
 
         try:
             pil_image = Image.open(image_path)
