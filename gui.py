@@ -51,6 +51,9 @@ class ImageSorterGUI:
         self.undo_button = Button(master, text="Undo", command=self.undo_last, state="disabled")
         self.undo_button.pack()
 
+        self.delete_button = Button(master, text="Delete", command=self.delete_image)
+        self.delete_button.pack()
+
         self.status_text = StringVar()
         self.status_label = Label(master, textvariable=self.status_text)
         self.status_label.pack()
@@ -69,6 +72,7 @@ class ImageSorterGUI:
             self.info_label.config(text='')
             self.entry.config(state="disabled")
             self.submit_button.config(state="disabled")
+            self.delete_button.config(state="disabled")
             return
 
         self.skip = False
@@ -106,14 +110,9 @@ class ImageSorterGUI:
             selected_path = new_path
 
         elif user_input == 'd':
-            selected_path = os.path.join(output_directory, 'trash')
-            os.makedirs(selected_path, exist_ok=True)
-            dest_path = os.path.join(selected_path, self.current_filename)
-            shutil.move(image_path, dest_path)
-            history_stack.append((dest_path, input_directory))
-            self.undo_button.config(state="normal")
-            self.status_text.set(f"🗑️ Deleted to: {dest_path}")
-            self.skip = True
+            # Same as delete button, but through typing 'd'
+            self.delete_image()
+            return
 
         elif user_input.isdigit() and int(user_input) <= len(unique_paths):
             selected_path = unique_paths[int(user_input) - 1]
@@ -156,6 +155,28 @@ class ImageSorterGUI:
         with open(user_modified_paths_file, 'w') as file:
             for path in unique_paths:
                 file.write(path + '\n')
+
+        index += 1
+        self.load_next_image()
+
+    def delete_image(self):
+        global index
+        if not self.current_filename:
+            return
+
+        image_path = os.path.join(input_directory, self.current_filename)
+        selected_path = os.path.join(output_directory, 'trash')
+        os.makedirs(selected_path, exist_ok=True)
+
+        dest_path = os.path.join(selected_path, self.current_filename)
+        try:
+            shutil.move(image_path, dest_path)
+            history_stack.append((dest_path, input_directory))
+            self.undo_button.config(state="normal")
+            self.status_text.set(f"🗑️ Deleted to: {dest_path}")
+        except Exception as e:
+            messagebox.showerror("Delete Error", f"Failed to delete: {e}")
+            return
 
         index += 1
         self.load_next_image()
