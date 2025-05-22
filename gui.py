@@ -129,12 +129,11 @@ class ImageSorterGUI:
                     match_count += 1
 
             if match_count > 1:
-                ends_with_matches = [p for p in unique_paths if p.endswith(user_input)]
-                if len(ends_with_matches) == 1:
-                    selected_path = ends_with_matches[0]
-                else:
-                    messagebox.showwarning("Ambiguous", "Multiple matching paths. Please enter a more specific name.")
-                    return
+                matches = [p for p in unique_paths if user_input in p]
+                msg = "Multiple matching paths found:\n\n" + "\n".join(f"{i+1}. {m}" for i, m in enumerate(matches))
+                msg += "\n\nPlease enter a more specific name (or full path segment)."
+                messagebox.showwarning("Ambiguous", msg)
+                return
 
             if selected_path is None:
                 use_path = messagebox.askyesno("New Path", f"Use new path {potentially_new_path}?")
